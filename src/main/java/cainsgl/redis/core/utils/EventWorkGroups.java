@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class EventWorkGroups implements Closeable
 {
-    public final static EventLoopGroup ASYNWorkGroup = new NioEventLoopGroup(1,new DefaultThreadFactory("ASYNWorkGroup",3));
+    public final static EventLoopGroup ASYNWorkGroup = new NioEventLoopGroup(2,new DefaultThreadFactory("ASYNWorkGroup",3));
     public final static EventLoopGroup unpopularWorkGroup=new NioEventLoopGroup(1, new DefaultThreadFactory("unpopularWorkGroup",3));
     public final static EventLoopGroup  MainThread=new NioEventLoopGroup(1,new DefaultThreadFactory("MainThread",true));
 

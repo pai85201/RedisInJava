@@ -1,5 +1,6 @@
 package cainsgl.redis.core.storage.share;
 
+import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.storage.RedisObj;
 import cainsgl.redis.core.utils.EventWorkGroups;
 import io.netty.channel.EventLoopGroup;
@@ -38,7 +39,10 @@ public class MainMemory implements Closeable
         });
         return promise;
     }
-
+    public static Future<RedisObj<?>> get(String key, AbstractCommandProcessor<?> processor)
+    {
+       return get(key,processor.getManager().getWorkGroup());
+    }
     @Override
     public void close() throws IOException
     {

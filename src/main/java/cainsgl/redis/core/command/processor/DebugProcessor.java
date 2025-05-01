@@ -23,12 +23,11 @@ public class DebugProcessor extends AbstractCommandProcessor<SimpleManager>
     public RESP2Response execute() throws RedisException
     {
         Iterator<Map.Entry<String, RedisObj<?>>> iterator = MainMemory.DICT.entrySet().iterator();
-        EventLoopGroup workGroup = getManager().getWorkGroup();
         List<Future<RedisObj<?>>> redisObjs = new ArrayList<>(MainMemory.DICT.size());
         while (iterator.hasNext())
         {
             Map.Entry<String, RedisObj<?>> next = iterator.next();
-            Future<RedisObj<?>> redisObjFuture = MainMemory.get(next.getKey(), workGroup);
+            Future<RedisObj<?>> redisObjFuture = MainMemory.get(next.getKey(), this);
             redisObjs.add(redisObjFuture);
         }
         FutureResponse[] resp2Responses = new FutureResponse[redisObjs.size()];
@@ -48,8 +47,6 @@ public class DebugProcessor extends AbstractCommandProcessor<SimpleManager>
             });
         }
         return new ArrayResponse(resp2Responses);
-
-
     }
 
     @Override

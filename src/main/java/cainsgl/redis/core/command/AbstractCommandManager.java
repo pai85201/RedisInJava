@@ -1,6 +1,5 @@
 package cainsgl.redis.core.command;
 
-import cainsgl.redis.core.command.processor.CommandProcessor;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.util.concurrent.DefaultThreadFactory;

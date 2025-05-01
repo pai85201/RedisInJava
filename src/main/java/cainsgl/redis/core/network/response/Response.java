@@ -58,8 +58,14 @@ public class Response
             }
             return builder.append(" ]").toString();
         }
-        StringBuilder builder = new StringBuilder();
-        builder.append("{ ").append(value.toString()).append(" : ").append(typeName).append(" }");
-        return builder.toString();
+        if(value!=null)
+        {
+            StringBuilder builder = new StringBuilder();
+           return  builder.append("( ").append(value.toString()).append(" : ").append(typeName).append(" )").toString();
+        }else
+        {
+            return "(nil)";
+        }
+
     }
 }

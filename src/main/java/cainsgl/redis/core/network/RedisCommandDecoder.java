@@ -12,7 +12,6 @@ import java.util.List;
 
 public class RedisCommandDecoder extends ByteToMessageDecoder
 {
-    private static final Logger log = LoggerFactory.getLogger(RedisCommandDecoder.class);
 
     CommandAdapter cmdAdapter;
     @Override
@@ -27,8 +26,8 @@ public class RedisCommandDecoder extends ByteToMessageDecoder
                 //应该处理数据
                 if(cmdAdapter.pullData(bytes))
                 {
-                    AbstractCommandProcessor<?> abstractCommandProcessor = cmdAdapter.getCommand();
-                    out.add(abstractCommandProcessor);
+                    AbstractCommandProcessor<?>.Command command = cmdAdapter.getCommand();
+                    out.add(command);
                     cmdAdapter=null;
                 }
                 return;

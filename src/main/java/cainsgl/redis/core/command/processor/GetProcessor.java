@@ -12,14 +12,10 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
 {
     public GetProcessor()
     {
-        super("get");
+        super("get",2,2);
     }
 
-    @Override
-    public int maxArgsCount()
-    {
-        return 2;
-    }
+
     String key=null;
 
 

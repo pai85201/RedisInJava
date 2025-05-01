@@ -31,8 +31,14 @@ public class GlobalExceptionHandler  extends ChannelDuplexHandler
        if(cause instanceof DecoderException DecoderEx)
        {
            Throwable cause1 = DecoderEx.getCause();
-           RedisException redisException = (RedisException) cause1;
-           String errorMsg = "-ERR " +redisException.getMessage() ;
+           String errorMsg;
+           if(cause1 instanceof RedisException redisException)
+           {
+               errorMsg = "-ERR " +redisException.getMessage() ;
+           }else
+           {
+               errorMsg="-ERR "+cause.getMessage() ;
+           }
            log.warn(errorMsg);
            ctx.writeAndFlush(Unpooled.copiedBuffer(errorMsg+ "\r\n", CharsetUtil.UTF_8));
        }else

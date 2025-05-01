@@ -6,7 +6,6 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
-import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import static cainsgl.redis.core.network.response.ResponseEnum.*;
@@ -19,13 +18,13 @@ public class RedisCommandHandler  extends ChannelInboundHandlerAdapter
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception
     {
-        if(msg instanceof AbstractCommandProcessor abstractCommandProcessor){
+        if(msg instanceof AbstractCommandProcessor<?>.Command command){
 //            command.submit(()->{
 //                Response execute = processor.execute();
 //                writeData(ctx,execute);
 //            });
-            abstractCommandProcessor.getWorkerGroup().submit(()->{
-                Response res = abstractCommandProcessor.execute();
+            command.processor.getManager().submit(()->{
+                Response res = command.processor.execute();
                 writeData(ctx,res,true);
                 ctx.flush();
             });

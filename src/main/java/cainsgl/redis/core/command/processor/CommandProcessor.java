@@ -2,40 +2,32 @@ package cainsgl.redis.core.command.processor;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.command.manager.CommandManager;
-import cainsgl.redis.core.command.manager.PingManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.network.NetworkConfig;
 import cainsgl.redis.core.network.response.Response;
 import cainsgl.redis.core.network.response.ResponseEnum;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 public class CommandProcessor extends AbstractCommandProcessor<CommandManager>
 {
     public CommandProcessor()
     {
-        super("command");
+        super("command",2,1);
     }
 
-    @Override
-    public int maxArgsCount()
-    {
-        return 1;
-    }
 
     @Override
     public Response execute()
     {
         //TODO
-        Map<String, AbstractCommandProcessor<?>> managers = NetworkConfig.getManagers();
-        Response[] res=new Response[managers.size()];
+        Map<String, AbstractCommandProcessor<?>.Command> commandMap = NetworkConfig.getManagers();
+        Response[] res=new Response[commandMap.size()];
         int i = 0;
         //去遍历所有的命令
-        for (Map.Entry<String, AbstractCommandProcessor<?>> entry : managers.entrySet()) {
-            AbstractCommandProcessor<?> processor = entry.getValue();
+        for (Map.Entry<String, AbstractCommandProcessor<?>.Command> entry : commandMap.entrySet()) {
+            AbstractCommandProcessor<?> processor = entry.getValue().processor;
             String commandName = entry.getKey();
             List<RedisParameter> parameter = processor.getParameter();
             //每个命令算上自己，有parameter.size()+1个
@@ -50,9 +42,9 @@ public class CommandProcessor extends AbstractCommandProcessor<CommandManager>
                     continue;
                 }
                 allArgs.append(only.size()).append(":").append("{ ");
-                for (int k = 0; k < only.size(); k++)
+                for (String s : only)
                 {
-                    allArgs.append(" ").append(only.get(k));
+                    allArgs.append(" ").append(s);
                 }
                 allArgs.append(" }");
             }

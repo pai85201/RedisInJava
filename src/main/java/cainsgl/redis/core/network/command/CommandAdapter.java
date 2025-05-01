@@ -6,7 +6,6 @@ import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.exception.CommandException;
 import cainsgl.redis.core.exception.RedisException;
 import cainsgl.redis.core.network.NetworkConfig;
-import cainsgl.redis.core.network.RedisCommandDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +25,7 @@ public class CommandAdapter
         dataNumber=num;
     }
     //需要查看究竟是什么data
-    AbstractCommandProcessor<?> abstractCommandProcessor = null;
+    AbstractCommandProcessor<?>.Command command = null;
     List<String> args=new ArrayList<String>();
     public boolean pullData(byte[] bytes)
     {
@@ -37,11 +36,11 @@ public class CommandAdapter
        if(!argsProcessing)
        {
            String commandName = new String(bytes, StandardCharsets.UTF_8);
-           abstractCommandProcessor = NetworkConfig.get(commandName);
-           if(abstractCommandProcessor ==null)
+           command = NetworkConfig.get(commandName);
+           if(command ==null)
            {
-               abstractCommandProcessor = NetworkConfig.get(commandName.toLowerCase());
-               if(abstractCommandProcessor ==null)
+               command = NetworkConfig.get(commandName.toLowerCase());
+               if(command ==null)
                {
                    if(args.isEmpty())
                    {
@@ -50,7 +49,10 @@ public class CommandAdapter
                    throw new CommandException(commandName,", with args beginning with:"+args.getLast());
                }
            }
-           if(dataNumber> abstractCommandProcessor.maxArgsCount())
+           if(dataNumber> command.maxCount)
+           {
+               throw new RedisException("wrong number of arguments for '"+commandName+"' command");
+           }else if(dataNumber < command.minCount)
            {
                throw new RedisException("wrong number of arguments for '"+commandName+"' command");
            }
@@ -63,10 +65,10 @@ public class CommandAdapter
        }
         return dataNumber == 0;
     }
-    public AbstractCommandProcessor getCommand()
+    public AbstractCommandProcessor<?>.Command getCommand()
     {
-        abstractCommandProcessor.processArgs(args);
-        log.debug("execute command:{} {}" ,abstractCommandProcessor.getCommand(),args);
-        return abstractCommandProcessor;
+        command.processor.processArgs(args);
+        log.debug("execute command:{} {}" ,command.cmd,args);
+        return command;
     }
 }

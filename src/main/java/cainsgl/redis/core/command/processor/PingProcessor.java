@@ -11,14 +11,11 @@ public class PingProcessor extends AbstractCommandProcessor<PingManager>
 {
     public PingProcessor()
     {
-        super("ping");
+        super("ping",2,1);
     }
 
-    @Override
-    public int maxArgsCount()
-    {
-        return 2;
-    }
+
+
     String result;
     @Override
     public Response execute()

@@ -7,6 +7,9 @@ public class BootStrap
 {
     public static void main(String[] args) throws Exception
     {
-        new RedisServer(new RedisConfig()).start(6379);
+        new RedisServer().start(new RedisConfig()
+                .setUserName("cainsgl")
+                .setAuth("123456")
+                .setPort(6379));
     }
 }

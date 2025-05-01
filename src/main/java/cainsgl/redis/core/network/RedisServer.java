@@ -16,14 +16,9 @@ import java.io.IOException;
 public class RedisServer
 {
     private static final Logger log = LoggerFactory.getLogger(RedisServer.class);
-    private final RedisConfig redisConfig;
-    public RedisServer(RedisConfig redisConfig)
-    {
-        this.redisConfig = redisConfig;
-    }
 
 
-    public void start(int port) throws Exception
+    public void start(RedisConfig r) throws Exception
     {
         initConfig();
         int groupThreads = this.getBoosGroupThreads();
@@ -34,11 +29,11 @@ public class RedisServer
         {
             bootstrap.group(bossGroup, workerGroup)
                      .channel(NioServerSocketChannel.class)
-                     .childHandler(new RedisServerInitializer())
+                     .childHandler(new RedisServerInitializer(r))
                      .option(ChannelOption.SO_BACKLOG, 128) // 服务端接收连接的队列大小
                      .childOption(ChannelOption.SO_KEEPALIVE, true);
-            ChannelFuture f = bootstrap.bind(port).sync();
-            log.info("Server started success!   Redis Server started on port {}", port);
+            ChannelFuture f = bootstrap.bind(r.port).sync();
+            log.info("Server started success!   Redis Server started on port {}", r.port);
             f.channel().closeFuture().sync();
         } catch (Exception e)
         {
@@ -48,7 +43,6 @@ public class RedisServer
     public void initConfig() throws Exception
     {
         //new各种命令出来
-        redisConfig.autoConfig();
         new RedisStaticConfig().autoConfig();
     }
     int getBoosGroupThreads()

@@ -1,16 +1,14 @@
 package cainsgl.redis.core.command.processor;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
-import cainsgl.redis.core.command.manager.PingManager;
-import cainsgl.redis.core.network.response.Response;
-import cainsgl.redis.core.network.response.ResponseEnum;
+import cainsgl.redis.core.command.manager.SimpleManager;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.SimpleStringResponse;
 import cainsgl.redis.core.network.response.resp.impl.StringResponse;
 
 import java.util.List;
 
-public class PingProcessor extends AbstractCommandProcessor<PingManager>
+public class PingProcessor extends AbstractCommandProcessor<SimpleManager>
 {
     public PingProcessor()
     {

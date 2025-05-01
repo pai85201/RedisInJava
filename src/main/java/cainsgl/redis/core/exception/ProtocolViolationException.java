@@ -4,6 +4,6 @@ public class ProtocolViolationException extends RedisException
 {
     public ProtocolViolationException(String s)
     {
-        super(s);
+        super("ERR "+s);
     }
 }

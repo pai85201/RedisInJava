@@ -1,7 +1,8 @@
 package cainsgl.redis.core.command.processor;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
-import cainsgl.redis.core.command.manager.CommandManager;
+
+import cainsgl.redis.core.command.manager.SimpleManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.network.NetworkConfig;
 import cainsgl.redis.core.network.response.Response;
@@ -13,7 +14,7 @@ import cainsgl.redis.core.network.response.resp.impl.StringResponse;
 import java.util.List;
 import java.util.Map;
 
-public class CommandProcessor extends AbstractCommandProcessor<CommandManager>
+public class CommandProcessor extends AbstractCommandProcessor<SimpleManager>
 {
     public CommandProcessor()
     {

@@ -4,7 +4,7 @@ public class CommandException extends RedisException
 {
     public CommandException(String commandName,String message)
     {
-        super("unknown command '"+commandName+"' "+message);
+        super("ERR unknown command '"+commandName+"' "+message);
 
     }
 }

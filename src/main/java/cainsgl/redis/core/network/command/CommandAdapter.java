@@ -42,6 +42,7 @@ public class CommandAdapter
                command = NetworkConfig.get(commandName.toLowerCase());
                if(command ==null)
                {
+                   //获取不到命令
                    if(args.isEmpty())
                    {
                        throw new CommandException(commandName,", with args beginning with:");

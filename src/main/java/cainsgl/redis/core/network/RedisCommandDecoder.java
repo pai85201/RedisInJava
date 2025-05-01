@@ -2,52 +2,49 @@ package cainsgl.redis.core.network;
 
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
+import cainsgl.redis.core.config.RedisConfig;
 import cainsgl.redis.core.network.command.CommandAdapter;
+import cainsgl.redis.core.network.decoder.AuthDecoder;
+import cainsgl.redis.core.network.decoder.Decoder;
+import cainsgl.redis.core.network.decoder.DefalutDcoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 public class RedisCommandDecoder extends ByteToMessageDecoder
 {
     private static final Logger log = LoggerFactory.getLogger(RedisCommandDecoder.class);
+    Decoder decoder;
 
-    CommandAdapter cmdAdapter;
-    @Override
-    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception
+    public RedisCommandDecoder(RedisConfig config)
     {
-        while(in.readableBytes() >0)
+        if (config.auth != null && !config.auth.isEmpty())
         {
-            byte[] bytes = new byte[in.readableBytes()];
-            in.readBytes(bytes);
-            if(cmdAdapter!=null)
-            {
-                //应该处理数据
-                if(cmdAdapter.pullData(bytes))
-                {
-                    AbstractCommandProcessor.Command command = cmdAdapter.getCommand();
-                    out.add(command);
-                    cmdAdapter=null;
-                }
-                return;
-            }
-            if(bytes[0]=='*')
-            {
-                //获取参数个数
-                int dataNum=0;
-                for(int i=1;i<bytes.length;i++)
-                {
-                    dataNum=bytes[i]-'0'+dataNum*10;
-                }
-                cmdAdapter=new CommandAdapter(dataNum);
-            }
+            decoder = new AuthDecoder(config.auth,this,config.userName);
+        } else
+        {
+            decoder = new DefalutDcoder();
         }
+    }
+
+    public void setDecoder(Decoder decoder)
+    {
+        this.decoder = decoder;
+    }
+
+
+    @Override
+    public void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out)
+    {
+        decoder.decode(ctx, in, out);
     }
 
     public void init()
     {
-        cmdAdapter=null;
+        decoder.reset();
     }
 }

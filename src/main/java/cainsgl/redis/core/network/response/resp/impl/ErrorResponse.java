@@ -6,7 +6,6 @@ import cainsgl.redis.core.network.response.resp.AbstractRESP2Response;
 public class ErrorResponse extends AbstractRESP2Response
 {
     public static final char ERROR = '-';
-    private static final String err="EER";
     String msg;
     public ErrorResponse(String msg)
     {
@@ -17,6 +16,6 @@ public class ErrorResponse extends AbstractRESP2Response
     @Override
     protected String toData()
     {
-        return err+msg;
+        return msg;
     }
 }

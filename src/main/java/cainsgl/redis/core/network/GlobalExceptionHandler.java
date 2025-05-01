@@ -4,7 +4,6 @@ import cainsgl.redis.core.exception.RedisException;
 
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelDuplexHandler;
-import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.DecoderException;
 import io.netty.util.CharsetUtil;
@@ -34,10 +33,10 @@ public class GlobalExceptionHandler  extends ChannelDuplexHandler
            String errorMsg;
            if(cause1 instanceof RedisException redisException)
            {
-               errorMsg = "-ERR " +redisException.getMessage() ;
+               errorMsg = "-" +redisException.getMessage() ;
            }else
            {
-               errorMsg="-ERR "+cause.getMessage() ;
+               errorMsg="-"+cause.getMessage() ;
            }
            log.warn(errorMsg);
            ctx.writeAndFlush(Unpooled.copiedBuffer(errorMsg+ "\r\n", CharsetUtil.UTF_8));

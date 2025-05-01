@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 public class StringResponse extends AbstractRESP2Response
 {
     private static final char ProtocolCharacter = '$';
-    private final String data;
+    public final String data;
     public StringResponse(String data)
     {
         super(ProtocolCharacter);

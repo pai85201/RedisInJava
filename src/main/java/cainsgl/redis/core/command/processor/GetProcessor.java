@@ -3,16 +3,17 @@ package cainsgl.redis.core.command.processor;
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.command.manager.GetSetManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
-import cainsgl.redis.core.network.response.Response;
-import cainsgl.redis.core.network.response.ResponseEnum;
+
 import cainsgl.redis.core.network.response.resp.RESP2Response;
+import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
+import cainsgl.redis.core.network.response.resp.impl.NumberResponse;
 import cainsgl.redis.core.network.response.resp.impl.StringResponse;
 import cainsgl.redis.core.storage.RedisObj;
-import cainsgl.redis.core.storage.share.ShareGet;
+
 
 import java.util.List;
 
-public class GetProcessor extends AbstractCommandProcessor<GetSetManager> implements ShareGet
+public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
 {
     public GetProcessor()
     {
@@ -20,13 +21,25 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager> implem
     }
 
 
-    String key=null;
 
+    String key;
 
     @Override
     public RESP2Response execute()
     {
-        return new StringResponse(getManager().test.get(key));
+        RedisObj<Object> objectRedisObj = getManager().redisObjMap.get(key);
+        if(objectRedisObj == null)
+        {
+            return EnumResponse.nil;
+        }else
+        {
+          Object o=  objectRedisObj.value;
+          if(o instanceof Number n)
+          {
+              return new NumberResponse(n);
+          }
+          return new StringResponse(o.toString());
+        }
     }
 
     @Override
@@ -42,9 +55,4 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager> implem
     }
 
     //该方法由主内存调用，返回给主内存RedisObj
-    @Override
-    public RedisObj<?> get(String key)
-    {
-        return null;
-    }
 }

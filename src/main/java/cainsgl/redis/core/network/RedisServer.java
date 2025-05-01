@@ -18,7 +18,7 @@ public class RedisServer
     private static final Logger log = LoggerFactory.getLogger(RedisServer.class);
 
 
-    public void start(RedisConfig r) throws Exception
+    public RedisServer start(RedisConfig r) throws Exception
     {
         initConfig();
         int groupThreads = this.getBoosGroupThreads();
@@ -39,6 +39,7 @@ public class RedisServer
         {
             log.error("服务出现错误", e);
         }
+        return this;
     }
     public void initConfig() throws Exception
     {

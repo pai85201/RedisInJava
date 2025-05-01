@@ -4,15 +4,27 @@ package cainsgl.redis.core.network.response.resp.impl;
 import cainsgl.redis.core.network.response.resp.AbstractRESP2Response;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 
+import java.util.List;
+
 public class ArrayResponse implements RESP2Response
 {
 
-    RESP2Response[] responses;
+    public RESP2Response[] responses;
+    public boolean isFuture=false;
     public ArrayResponse(RESP2Response... responses)
     {
         this.responses = responses;
     }
-
+    public ArrayResponse(FutureResponse<?>... responses)
+    {
+        isFuture=true;
+        this.responses = responses;
+    }
+    public ArrayResponse(List<RESP2Response> responses)
+    {
+     this.responses = new RESP2Response[responses.size()];
+     responses.toArray(this.responses);
+    }
     @Override
     public String serialization()
     {

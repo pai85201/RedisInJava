@@ -2,7 +2,8 @@ package cainsgl.redis.core.storage.share;
 
 import cainsgl.redis.core.storage.RedisObj;
 
-public interface ShareGet
+@FunctionalInterface
+public interface GetCallBack
 {
-    RedisObj<?> get(String key);
+    boolean call(RedisObj<?> r);
 }

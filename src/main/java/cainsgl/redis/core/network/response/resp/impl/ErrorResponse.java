@@ -12,7 +12,11 @@ public class ErrorResponse extends AbstractRESP2Response
         super(ERROR);
         this.msg = msg;
     }
-
+    public ErrorResponse(Throwable msg)
+    {
+        super(ERROR);
+        this.msg = "ERR type:"+msg.getClass().getSimpleName();
+    }
     @Override
     protected String toData()
     {

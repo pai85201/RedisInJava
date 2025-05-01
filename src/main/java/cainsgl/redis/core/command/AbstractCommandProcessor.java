@@ -13,7 +13,7 @@ import java.util.List;
 public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
 {
 
-    public static class Command
+    public static final class Command
     {
         public final int maxCount;
         public final int minCount;
@@ -28,7 +28,7 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
         }
 
     }
-    public void setManager(AbstractCommandManager t)
+    public final void setManager(AbstractCommandManager t)
     {
         if(manager==null)
         {
@@ -39,7 +39,7 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
         }
     }
     T manager;
-    public T getManager()
+    public final T getManager()
     {
         return manager;
     }

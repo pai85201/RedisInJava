@@ -3,6 +3,8 @@ package cainsgl.redis.core.network.response.resp.impl;
 
 import cainsgl.redis.core.network.response.resp.AbstractRESP2Response;
 
+import java.nio.charset.StandardCharsets;
+
 public class StringResponse extends AbstractRESP2Response
 {
     private static final char ProtocolCharacter = '$';
@@ -21,7 +23,7 @@ public class StringResponse extends AbstractRESP2Response
         {
             return "-1";
         }
-        return data.length()+END+data;
+        return data.getBytes(StandardCharsets.UTF_8).length+END+data;
     }
 
 }

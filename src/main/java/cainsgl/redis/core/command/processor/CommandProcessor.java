@@ -48,7 +48,7 @@ public class CommandProcessor extends AbstractCommandProcessor<CommandManager>
                 {
                     allArgs.append(" ").append(s);
                 }
-                allArgs.append(" }");
+                allArgs.append(" }],");
             }
             RESP2Response oneCommand = new StringResponse(allArgs.toString());
             responses[i] = oneCommand;

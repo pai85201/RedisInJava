@@ -1,15 +1,16 @@
 package cainsgl.redis.core.command.parameter;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 
 import java.util.List;
 
-@Data
-@AllArgsConstructor
+
 public class RedisParameter
 {
-    Class<?> type;
-    List<String> only;
-
+   public Class<?> type;
+    public List<String> only;
+    public RedisParameter(Class<?> type,List<String> only)
+    {
+        this.type = type;
+        this.only = only;
+    }
 }

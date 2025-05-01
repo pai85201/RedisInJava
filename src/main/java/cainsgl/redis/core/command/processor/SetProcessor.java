@@ -5,6 +5,11 @@ import cainsgl.redis.core.command.manager.GetSetManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.exception.RedisException;
 import cainsgl.redis.core.network.response.Response;
+import cainsgl.redis.core.network.response.resp.RESP2Response;
+import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
+import cainsgl.redis.core.network.response.resp.impl.OkResponse;
+import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.share.ShareSet;
 
 import java.util.List;
 
@@ -19,10 +24,10 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager>
     String key=null;
     String value=null;
     @Override
-    public Response execute()  throws RedisException
+    public RESP2Response execute()  throws RedisException
     {
          getManager().test.put(key,value);
-        return Response.OK;
+        return EnumResponse.ok;
     }
 
     @Override
@@ -37,4 +42,6 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager>
     {
         return List.of(new RedisParameter(String.class,List.of() ),new RedisParameter(String.class,List.of() ));
     }
+
+
 }

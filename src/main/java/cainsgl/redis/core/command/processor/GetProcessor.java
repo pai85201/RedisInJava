@@ -5,10 +5,14 @@ import cainsgl.redis.core.command.manager.GetSetManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.network.response.Response;
 import cainsgl.redis.core.network.response.ResponseEnum;
+import cainsgl.redis.core.network.response.resp.RESP2Response;
+import cainsgl.redis.core.network.response.resp.impl.StringResponse;
+import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.share.ShareGet;
 
 import java.util.List;
 
-public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
+public class GetProcessor extends AbstractCommandProcessor<GetSetManager> implements ShareGet
 {
     public GetProcessor()
     {
@@ -20,9 +24,9 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
 
 
     @Override
-    public Response execute()
+    public RESP2Response execute()
     {
-        return new Response(getManager().test.get(key), ResponseEnum.STRING);
+        return new StringResponse(getManager().test.get(key));
     }
 
     @Override
@@ -35,5 +39,12 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
     public List<RedisParameter> getParameter()
     {
        return List.of(new RedisParameter(String.class,List.of() )) ;
+    }
+
+    //该方法由主内存调用，返回给主内存RedisObj
+    @Override
+    public RedisObj<?> get(String key)
+    {
+        return null;
     }
 }

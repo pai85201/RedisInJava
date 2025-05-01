@@ -1,19 +1,16 @@
 package cainsgl.redis.core.network.response;
 
 
-import io.netty.buffer.Unpooled;
-import io.netty.util.CharsetUtil;
-import lombok.Getter;
+
 
 import static cainsgl.redis.core.network.response.ResponseEnum.*;
 
-
+@Deprecated
 public class Response
 {
-    @Getter
-    Object value;
-    @Getter
-    byte type;
+    public Object value;
+
+    public byte type;
     public Response(Object value,byte type)
     {
         this.value = value;

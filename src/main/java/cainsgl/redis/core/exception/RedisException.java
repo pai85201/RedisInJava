@@ -1,9 +1,6 @@
 package cainsgl.redis.core.exception;
 
-import lombok.Getter;
-import lombok.Setter;
 
-import java.io.Serializable;
 
 
 public class RedisException extends RuntimeException

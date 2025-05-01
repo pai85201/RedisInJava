@@ -1,5 +1,5 @@
 package cainsgl.redis.core.network.response;
-
+@Deprecated
 public class ResponseEnum
 {
     public static final byte SIMPLE_STRING = '+';

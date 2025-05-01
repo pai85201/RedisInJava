@@ -5,13 +5,15 @@ import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.exception.RedisException;
 import cainsgl.redis.core.network.NetworkConfig;
 import cainsgl.redis.core.network.response.Response;
+import cainsgl.redis.core.network.response.resp.RESP2Response;
+
 import java.util.List;
 
 
 public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
 {
 
-    public class Command
+    public static class Command
     {
         public final int maxCount;
         public final int minCount;
@@ -49,7 +51,7 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
 
 
 
-    public abstract Response execute() throws RedisException;
+    public abstract RESP2Response execute() throws RedisException;
 
     public abstract void processArgs(List<String> args) throws RedisException;
 

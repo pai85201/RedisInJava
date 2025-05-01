@@ -25,7 +25,7 @@ public class CommandAdapter
         dataNumber=num;
     }
     //需要查看究竟是什么data
-    AbstractCommandProcessor<?>.Command command = null;
+    AbstractCommandProcessor.Command command = null;
     List<String> args=new ArrayList<String>();
     public boolean pullData(byte[] bytes)
     {
@@ -65,7 +65,7 @@ public class CommandAdapter
        }
         return dataNumber == 0;
     }
-    public AbstractCommandProcessor<?>.Command getCommand()
+    public AbstractCommandProcessor.Command getCommand()
     {
         command.processor.processArgs(args);
         log.debug("execute command:{} {}" ,command.cmd,args);

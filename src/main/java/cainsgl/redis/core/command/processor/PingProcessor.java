@@ -4,6 +4,9 @@ import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.command.manager.PingManager;
 import cainsgl.redis.core.network.response.Response;
 import cainsgl.redis.core.network.response.ResponseEnum;
+import cainsgl.redis.core.network.response.resp.RESP2Response;
+import cainsgl.redis.core.network.response.resp.impl.SimpleStringResponse;
+import cainsgl.redis.core.network.response.resp.impl.StringResponse;
 
 import java.util.List;
 
@@ -18,20 +21,21 @@ public class PingProcessor extends AbstractCommandProcessor<PingManager>
 
     String result;
     @Override
-    public Response execute()
+    public RESP2Response execute()
     {
         if(result==null)
         {
-           return new Response("PONG", ResponseEnum.SIMPLE_STRING);
+           return new SimpleStringResponse("PONG");
         }else
         {
-            return new Response(result, ResponseEnum.STRING);
+            return new StringResponse(result);
         }
     }
 
     @Override
     public void processArgs(List<String > args)
     {
+        result=null;
         if(args.isEmpty())
         {
             return;

@@ -36,7 +36,7 @@ public class TTLProcessor extends AbstractCommandProcessor<SimpleManager>
         return new FutureResponse<>(r).addListener((redisObj) -> {
             if (redisObj instanceof RedisProxyObj<?> obj)
             {
-                return new NumberResponse((obj.expire - ExpireManager.updateTime)/1000);
+                return new NumberResponse(obj.expire - ExpireManager.updateTime);
             }
             //这里只要不是自己手动去new的，都不会返回他
             return new NumberResponse(-1);

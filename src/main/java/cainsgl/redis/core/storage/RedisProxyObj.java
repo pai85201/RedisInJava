@@ -81,10 +81,13 @@ public class RedisProxyObj<T> implements RedisObj<T>
     public void del()
     {
         isDel = true;
+        this.proxy=null;
         if(call!=null)
         {
+
             call.run();
         }
+
         //回调manager
     }
 }

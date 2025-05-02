@@ -2,11 +2,7 @@ package cainsgl.redis.core.network.response.resp.impl;
 
 
 import cainsgl.redis.core.network.response.resp.RESP2Response;
-import cainsgl.redis.core.storage.RedisObj;
 import io.netty.util.concurrent.Future;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 public class FutureResponse<T> implements RESP2Response

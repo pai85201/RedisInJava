@@ -16,24 +16,27 @@ public class ExpireManager
     private static final Logger log = LoggerFactory.getLogger(ExpireManager.class);
     private static final int BUCKET_SIZE = 16;
     private static final List<List<RedisProxyObj<?>>> buckets = new ArrayList<>(BUCKET_SIZE);
-  //  public static final long SystemStartTime = System.currentTimeMillis();
+    //  public static final long SystemStartTime = System.currentTimeMillis();
     public static volatile long updateTime = 0L;
     public static final EventLoop ADDTHREAD = EventWorkGroups.ExpireThread.next();
-    public static final EventLoop GCASSIST= EventWorkGroups.ExpireThread.next();
+    public static final EventLoop GCASSIST = EventWorkGroups.ExpireThread.next();
+
+    public static void del(RedisProxyObj<?> obj)
+    {
+        int hash = (int) obj.expire & 0x000F;
+        log.debug("del expire obj {} in {} solt", obj, hash);
+        List<RedisProxyObj<?>> expireObjs = buckets.get(hash);
+        expireObjs.remove(obj);
+    }
 
     public static void register(RedisProxyObj<?> obj)
     {
         ADDTHREAD.execute(() -> {
-            int hash=(int) obj.expire & 0x000F;
-            log.debug("add expire obj {} in {} solt", obj,hash);
+            int hash = (int) obj.expire & 0x000F;
+            log.debug("add expire obj {} in {} solt", obj, hash);
             List<RedisProxyObj<?>> expireObjs = buckets.get(hash);
-            int index = 0;
-            // 找到合适的插入位置
-            while (index < expireObjs.size() && expireObjs.get(index).expire < obj.expire) {
-                index++;
-            }
             // 插入元素
-            expireObjs.add( obj);
+            expireObjs.add(obj);
         });
     }
 
@@ -43,14 +46,14 @@ public class ExpireManager
         {
             buckets.add(new ArrayList<>());
         }
-        executeGc(0, 6, ADDTHREAD,100);
-        executeGc(6, 16, GCASSIST,50);
+        executeGc(0, 6, ADDTHREAD, 100);
+        executeGc(6, 16, GCASSIST, 50);
     }
 
-    private static void executeGc(int from, int to, EventLoop eventLoop,int gcNum)
+    private static void executeGc(int from, int to, EventLoop eventLoop, int gcNum)
     {
         eventLoop.scheduleAtFixedRate(() -> {
-            long now= System.currentTimeMillis();
+            long now = System.currentTimeMillis();
             updateTime = now;
             for (int i = from; i < to; i++)
             {
@@ -62,16 +65,19 @@ public class ExpireManager
                     if (next.expire < now)
                     {
                         //说明已经存活时间已经过了，现在应该清除他
-                        if(eventLoop==ADDTHREAD)
+                        if (eventLoop == ADDTHREAD)
                         {
                             //直接删除
-                            log.debug("gc remove this obj {}",next.getRes());
                             next.del();
                             iterator.remove();
-                        }else
+                            log.debug("gc remove this obj {}", buckets);
+                        } else
                         {
                             next.del();
-                            ADDTHREAD.execute(iterator::remove);
+                            ADDTHREAD.execute(() -> {
+                                iterator.remove();
+                                log.debug("gc remove this obj {}", buckets);
+                            });
                         }
                     } else
                     {

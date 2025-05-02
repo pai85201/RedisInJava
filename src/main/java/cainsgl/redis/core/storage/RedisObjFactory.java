@@ -44,7 +44,7 @@ public class RedisObjFactory
     {
         try
         {
-            float v = Integer.parseInt(obj);
+            int v = Integer.parseInt(obj);
             return new RedisNumberObj(v);
         } catch (Exception e)
         {

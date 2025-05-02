@@ -43,7 +43,7 @@ public class RedisCommandHandler extends ChannelInboundHandlerAdapter
                             return;
                         }
                     }
-                    log.debug("execute {} and Response=> {}", command.cmd, res.toString());
+                    log.debug("execute {} and Response=> {}", command.cmd, res);
                     WriteDataUtil.writeData(ctx, res);
                 }
             });

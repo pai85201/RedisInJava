@@ -31,6 +31,7 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
         {
             return EnumResponse.nil;
         }
+        key=null;
         return objectRedisObj.getRes();
     }
 

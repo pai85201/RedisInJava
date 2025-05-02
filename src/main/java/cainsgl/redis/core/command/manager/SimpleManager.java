@@ -13,6 +13,6 @@ public class SimpleManager extends AbstractCommandManager
 
     public SimpleManager()
     {
-        super(true, new CommandProcessor(),new PingProcessor(),new AuthProcessor(),new DebugProcessor(),new TTLProcessor());
+        super(true, new PingProcessor(),new DebugProcessor(),new TTLProcessor());
     }
 }

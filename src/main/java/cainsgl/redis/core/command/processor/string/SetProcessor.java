@@ -10,12 +10,16 @@ import cainsgl.redis.core.storage.RedisObj;
 import cainsgl.redis.core.storage.RedisObjFactory;
 import cainsgl.redis.core.storage.share.ExpirableProducer;
 import cainsgl.redis.core.storage.share.MainMemory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 import java.util.Map;
 
 public class SetProcessor extends AbstractCommandProcessor<GetSetManager> implements ExpirableProducer
 {
+
+
     public SetProcessor()
     {
         super("set", 3, 3);
@@ -23,12 +27,13 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager> implem
 
     String key;
     String value;
+
     @Override
     public RESP2Response execute() throws RedisException
     {
         GetSetManager manager = getManager();
         //这里key开始的，后面的参数都会被传入del里
-        RedisObj<?> produce = RedisObjFactory.produce(value, 5000,this,key);
+        RedisObj<?> produce = RedisObjFactory.produce(value, 60000, this, key);
         manager.redisObjMap.put(key, produce);
         MainMemory.put(key, produce);
         return EnumResponse.ok;
@@ -51,7 +56,10 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager> implem
     @Override
     public void del(RedisObj<?> r, Object... param)
     {
-        String key=(String) param[0];
+        String key = (String) param[0];
         getManager().redisObjMap.remove(key);
+        //剩下的是给你们看下gc回收
+//        System.out.println(getManager().redisObjMap);
+//        System.gc();
     }
 }

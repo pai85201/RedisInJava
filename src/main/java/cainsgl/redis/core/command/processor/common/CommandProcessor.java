@@ -1,12 +1,10 @@
-package cainsgl.redis.core.command.processor;
+package cainsgl.redis.core.command.processor.common;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 
 import cainsgl.redis.core.command.manager.SimpleManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
 import cainsgl.redis.core.network.NetworkConfig;
-import cainsgl.redis.core.network.response.Response;
-import cainsgl.redis.core.network.response.ResponseEnum;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.ArrayResponse;
 import cainsgl.redis.core.network.response.resp.impl.StringResponse;

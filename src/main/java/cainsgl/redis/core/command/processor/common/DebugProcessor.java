@@ -1,4 +1,4 @@
-package cainsgl.redis.core.command.processor;
+package cainsgl.redis.core.command.processor.common;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.command.manager.SimpleManager;
@@ -7,7 +7,6 @@ import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.*;
 import cainsgl.redis.core.storage.RedisObj;
 import cainsgl.redis.core.storage.share.MainMemory;
-import io.netty.channel.EventLoopGroup;
 import io.netty.util.concurrent.Future;
 
 import java.util.*;

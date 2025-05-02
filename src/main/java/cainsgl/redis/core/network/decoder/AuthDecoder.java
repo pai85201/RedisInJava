@@ -1,13 +1,12 @@
 package cainsgl.redis.core.network.decoder;
 
 import cainsgl.redis.core.command.AbstractCommandProcessor;
-import cainsgl.redis.core.command.processor.AuthProcessor;
+import cainsgl.redis.core.command.processor.safe.AuthProcessor;
 import cainsgl.redis.core.network.RedisCommandDecoder;
 import cainsgl.redis.core.network.command.CommandAdapter;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
 import cainsgl.redis.core.network.response.resp.impl.ErrorResponse;
-import cainsgl.redis.core.network.response.resp.impl.StringResponse;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 

@@ -37,7 +37,7 @@ public class RedisServer implements Stopable
                      .childOption(ChannelOption.SO_KEEPALIVE, true);
             channelFuture= bootstrap.bind(r.port).sync();
             log.info("Server started success!   Redis Server started on port {}", r.port);
-
+            channelFuture.channel().closeFuture().sync();
         } catch (Exception e)
         {
             log.error("服务出现错误", e);
@@ -65,7 +65,7 @@ public class RedisServer implements Stopable
     @Override
     public void stop() throws InterruptedException, ExecutionException
     {
-        channelFuture.channel().closeFuture().get();
+       channelFuture.channel().closeFuture().get();
         eventWorkGroups.stop();
     }
 }

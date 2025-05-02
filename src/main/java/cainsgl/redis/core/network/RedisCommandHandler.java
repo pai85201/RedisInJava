@@ -3,6 +3,7 @@ package cainsgl.redis.core.network;
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.ArrayResponse;
+import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
 import cainsgl.redis.core.network.response.resp.impl.ErrorResponse;
 import cainsgl.redis.core.network.response.resp.impl.FutureResponse;
 import cainsgl.redis.core.utils.EventWorkGroups;
@@ -27,10 +28,6 @@ public class RedisCommandHandler extends ChannelInboundHandlerAdapter
     {
         if (msg instanceof AbstractCommandProcessor.Command command)
         {
-//            command.submit(()->{
-//                Response execute = processor.execute();
-//                writeData(ctx,execute);
-//            });
             command.processor.getManager().submit(() -> {
                 RESP2Response res = command.processor.execute();
                 if (res instanceof FutureResponse<?> f)
@@ -46,15 +43,17 @@ public class RedisCommandHandler extends ChannelInboundHandlerAdapter
                             return;
                         }
                     }
-                    log.debug("execute {} and Response=> {}", command.cmd, res.toString());
+                    log.debug("execute {} and Response=> {}", command.cmd, res);
                     WriteDataUtil.writeData(ctx, res);
                 }
             });
+            return;
         }
         //处理直接是请求的
         if (msg instanceof RESP2Response res)
         {
             WriteDataUtil.writeData(ctx, res);
+
         }
     }
 
@@ -64,6 +63,10 @@ public class RedisCommandHandler extends ChannelInboundHandlerAdapter
             try
             {
                 Object o = f.future.get();
+                if (o == null)
+                {
+                    WriteDataUtil.writeData(ctx, EnumResponse.nil);
+                }
                 RESP2Response callback = f.callback(o);
                 WriteDataUtil.writeData(ctx, callback);
                 log.debug("execute {} and Response=> {}", cmd, callback);
@@ -89,11 +92,15 @@ public class RedisCommandHandler extends ChannelInboundHandlerAdapter
                     }
 
                     Object o = r.future.get();
+                    if (o == null)
+                    {
+                        continue;
+                    }
                     RESP2Response callback = r.callback(o);
                     res.add(callback);
+
                 }
                 WriteDataUtil.writeData(ctx, new ArrayResponse(res));
-
             } catch (Exception e)
             {
                 log.error("error processing array future", e);

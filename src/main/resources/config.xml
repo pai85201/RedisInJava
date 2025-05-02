@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE db PUBLIC "-//cainsgl.com//DTD db 1.0//EN" "https://github.com/CainSgl/redis-for-java/blob/main/config.xsd">
+<db>
+    <manager class="com.example.ManagerOne">
+        <processor class="com.csxx.ProcessorOne"/>
+    </manager>
+</db>

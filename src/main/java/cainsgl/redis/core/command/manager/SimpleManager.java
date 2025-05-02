@@ -1,6 +1,7 @@
 package cainsgl.redis.core.command.manager;
 
 import cainsgl.redis.core.command.AbstractCommandManager;
+import cainsgl.redis.core.command.processor.common.TTLProcessor;
 import cainsgl.redis.core.command.processor.safe.AuthProcessor;
 import cainsgl.redis.core.command.processor.common.CommandProcessor;
 import cainsgl.redis.core.command.processor.common.DebugProcessor;
@@ -12,6 +13,6 @@ public class SimpleManager extends AbstractCommandManager
 
     public SimpleManager()
     {
-        super(true, new CommandProcessor(),new PingProcessor(),new AuthProcessor(),new DebugProcessor());
+        super(true, new PingProcessor(),new DebugProcessor(),new TTLProcessor());
     }
 }

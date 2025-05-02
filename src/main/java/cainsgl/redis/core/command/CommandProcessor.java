@@ -15,7 +15,7 @@ public interface CommandProcessor
     List<RedisParameter> getParameter();
 
     void setManager(CommandManager manager);
-
+    CommandManager getManager();
     public static final class Command
     {
         public final int maxCount;

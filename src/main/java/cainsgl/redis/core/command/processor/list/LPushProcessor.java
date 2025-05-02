@@ -27,30 +27,30 @@ public class LPushProcessor extends AbstractCommandProcessor<ListManager>
     @Override
     public RESP2Response execute() throws RedisException
     {
-        // 将数据存入工作空间
-        Map<String, RedisObj<LinkedList<String>>> redisObjGroup = getManager().redisObjGroup;
-        String[] valueInfo = values.trim().replaceAll("\\s+", " ").split(" ");
-        List<String> valueCollection = Arrays.stream(valueInfo).toList();
-        if(null == redisObjGroup.get(key)){
-            // 该 key对应的list 第一次被创建，封装 redisObj对象
-            RedisObj<LinkedList<String>> redisObj = new RedisObj<>(key, 30, new LinkedList<>(valueCollection));
-            redisObjGroup.put(key, redisObj);
-            // 将数据存入主存(数据库)
-        }else {
-            // 该列表之前存在
-            redisObjGroup.get(key).value.addAll(valueCollection);
-        }
-        MainMemory.put(key, redisObjGroup.get(key));
+//        // 将数据存入工作空间
+//        Map<String, RedisObj<LinkedList<String>>> redisObjGroup = getManager().redisObjGroup;
+//        String[] valueInfo = values.trim().replaceAll("\\s+", " ").split(" ");
+//        List<String> valueCollection = Arrays.stream(valueInfo).toList();
+//        if(null == redisObjGroup.get(key)){
+//            // 该 key对应的list 第一次被创建，封装 redisObj对象
+//            RedisObj<LinkedList<String>> redisObj = new RedisObj<>(key, 30, new LinkedList<>(valueCollection));
+//            redisObjGroup.put(key, redisObj);
+//            // 将数据存入主存(数据库)
+//        }else {
+//            // 该列表之前存在
+//            redisObjGroup.get(key).value.addAll(valueCollection);
+//        }
+//        MainMemory.put(key, redisObjGroup.get(key));
         return EnumResponse.ok;
     }
 
     @Override
     public void processArgs(List<String> args) throws RedisException {
-        key = args.get(0);
-        values = args.subList(1, args.size())
-                     .stream()
-                     .map(Object::toString)
-                     .collect(Collectors.joining(" "));
+//        key = args.get(0);
+//        values = args.subList(1, args.size())
+//                     .stream()
+//                     .map(Object::toString)
+//                     .collect(Collectors.joining(" "));
     }
 
     @Override

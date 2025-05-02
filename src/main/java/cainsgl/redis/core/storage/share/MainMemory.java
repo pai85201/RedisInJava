@@ -10,18 +10,16 @@ import io.netty.util.concurrent.Promise;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class MainMemory implements Closeable
 {
-    public static final Map<String, RedisObj<?>> DICT = new HashMap<>();
-
+    public static final Map<String,RedisObj<?>> DICT=new WeakHashMap<>();
 
     public static void put(String key, RedisObj<?> obj)
     {
         EventWorkGroups.MainThread.execute(() -> DICT.put(key, obj));
-
     }
 
     public static void del(String key)
@@ -29,20 +27,22 @@ public class MainMemory implements Closeable
         EventWorkGroups.MainThread.execute(() -> DICT.remove(key));
     }
 
-    public static Future<RedisObj<?>> get(String key, EventLoopGroup group)
+    public static Future<RedisObj<?>> get(String key)
     {
-        Promise<RedisObj<?>> promise = group.next().newPromise();
+        Promise<RedisObj<?>> promise = EventWorkGroups.MainThread.next().newPromise();
         EventWorkGroups.MainThread.execute(() -> {
             RedisObj<?> r = DICT.get(key);
+            if(r==null)
+            {
+                DICT.remove(key);
+            }
+            promise.setSuccess(r);
             // 将结果设置到 Promise（确保在 EventLoop 线程）
-            group.execute(() -> promise.setSuccess(r));
+        //    group.execute(() -> promise.setSuccess(r));
         });
         return promise;
     }
-    public static Future<RedisObj<?>> get(String key, AbstractCommandProcessor<?> processor)
-    {
-       return get(key,processor.getManager().getWorkGroup());
-    }
+
     @Override
     public void close() throws IOException
     {

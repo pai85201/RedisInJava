@@ -16,7 +16,7 @@ public abstract class AbstractCommandProcessor<T extends CommandManager> impleme
 
         NetworkConfig.register(new Command(commandName, maxArgsCount, minArgsCount, this));
     }
-
+    @Override
     public final T getManager()
     {
         return manager;

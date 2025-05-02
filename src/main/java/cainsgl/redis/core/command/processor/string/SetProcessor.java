@@ -7,12 +7,14 @@ import cainsgl.redis.core.exception.RedisException;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
 import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.RedisObjFactory;
+import cainsgl.redis.core.storage.share.ExpirableProducer;
 import cainsgl.redis.core.storage.share.MainMemory;
 
 import java.util.List;
 import java.util.Map;
 
-public class SetProcessor extends AbstractCommandProcessor<GetSetManager>
+public class SetProcessor extends AbstractCommandProcessor<GetSetManager> implements ExpirableProducer
 {
     public SetProcessor()
     {
@@ -21,23 +23,14 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager>
 
     String key;
     String value;
-
     @Override
     public RESP2Response execute() throws RedisException
     {
-        Map<String, RedisObj<Object>> map = getManager().redisObjMap;
-        RedisObj<Object> redisObj;
-        try
-        {
-            int i = Integer.parseInt(value);
-            redisObj = new RedisObj<>(key, 30, i);
-        } catch (Exception e)
-        {
-            redisObj = new RedisObj<>(key, 30, value);
-        }
-        map.put(key, redisObj);
-        MainMemory.put(key, redisObj);
-        //原来的直接不要了
+        GetSetManager manager = getManager();
+        //这里key开始的，后面的参数都会被传入del里
+        RedisObj<?> produce = RedisObjFactory.produce(value, 5000,this,key);
+        manager.redisObjMap.put(key, produce);
+        MainMemory.put(key, produce);
         return EnumResponse.ok;
     }
 
@@ -55,4 +48,10 @@ public class SetProcessor extends AbstractCommandProcessor<GetSetManager>
     }
 
 
+    @Override
+    public void del(RedisObj<?> r, Object... param)
+    {
+        String key=(String) param[0];
+        getManager().redisObjMap.remove(key);
+    }
 }

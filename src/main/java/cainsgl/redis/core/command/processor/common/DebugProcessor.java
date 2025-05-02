@@ -26,7 +26,7 @@ public class DebugProcessor extends AbstractCommandProcessor<SimpleManager>
         while (iterator.hasNext())
         {
             Map.Entry<String, RedisObj<?>> next = iterator.next();
-            Future<RedisObj<?>> redisObjFuture = MainMemory.get(next.getKey(), this);
+            Future<RedisObj<?>> redisObjFuture = MainMemory.get(next.getKey());
             redisObjs.add(redisObjFuture);
         }
         FutureResponse[] resp2Responses = new FutureResponse[redisObjs.size()];
@@ -35,7 +35,7 @@ public class DebugProcessor extends AbstractCommandProcessor<SimpleManager>
         {
             resp2Responses[i] = new FutureResponse<>(redisObjs.get(i)).addListener((RedisObj<?> robj) -> {
                 //转换器，把转成对于的协议
-                Object r = robj.value;
+                Object r = robj.getData();
                 if (r instanceof Integer integer)
                 {
                     return new NumberResponse(integer);

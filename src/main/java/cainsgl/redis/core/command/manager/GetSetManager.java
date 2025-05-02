@@ -10,10 +10,12 @@ import java.util.Map;
 
 public class GetSetManager extends AbstractCommandManager
 {
-   public Map<String, RedisObj<Object>> redisObjMap=new HashMap<>();
+
+
     public GetSetManager()
     {
         super(false, new SetProcessor(), new GetProcessor());
     }
 
+    public Map<String, RedisObj<?>> redisObjMap = new HashMap<>();
 }

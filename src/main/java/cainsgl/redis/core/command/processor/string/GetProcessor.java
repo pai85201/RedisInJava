@@ -17,9 +17,8 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
 {
     public GetProcessor()
     {
-        super("get",2,2);
+        super("get", 2, 2);
     }
-
 
 
     String key;
@@ -27,31 +26,24 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
     @Override
     public RESP2Response execute()
     {
-        RedisObj<Object> objectRedisObj = getManager().redisObjMap.get(key);
+        RedisObj<?> objectRedisObj = getManager().redisObjMap.get(key);
         if(objectRedisObj == null)
         {
             return EnumResponse.nil;
-        }else
-        {
-          Object o=  objectRedisObj.value;
-          if(o instanceof Number n)
-          {
-              return new NumberResponse(n);
-          }
-          return new StringResponse(o.toString());
         }
+        return objectRedisObj.getRes();
     }
 
     @Override
     public void processArgs(List<String> args)
     {
-        key= args.get(0);
+        key = args.get(0);
     }
 
     @Override
     public List<RedisParameter> getParameter()
     {
-       return List.of(new RedisParameter(String.class,List.of() )) ;
+        return List.of(new RedisParameter(String.class, List.of()));
     }
 
     //该方法由主内存调用，返回给主内存RedisObj

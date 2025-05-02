@@ -13,8 +13,7 @@ import java.util.List;
 public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
 {
 
-    public static final class Command
-    {
+    public static final class Command {
         public final int maxCount;
         public final int minCount;
         public final AbstractCommandProcessor<?> processor;
@@ -28,6 +27,7 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
         }
 
     }
+
     public final void setManager(AbstractCommandManager t)
     {
         if(manager==null)
@@ -38,6 +38,7 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
             throw new RedisException("CommandProcessor already initialized");
         }
     }
+
     T manager;
     public final T getManager()
     {
@@ -48,8 +49,6 @@ public abstract class AbstractCommandProcessor<T extends AbstractCommandManager>
 
            NetworkConfig.register(new Command(commandName, maxArgsCount, minArgsCount, this));
     }
-
-
 
     public abstract RESP2Response execute() throws RedisException;
 

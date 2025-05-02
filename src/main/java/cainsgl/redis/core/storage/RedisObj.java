@@ -6,8 +6,7 @@ import cainsgl.redis.core.storage.share.ShareDel;
 
 import cainsgl.redis.core.storage.share.ShareSet;
 
-public  class RedisObj<T>
-{
+public class RedisObj<T> {
     String key;
     long expire;
     public T value;

@@ -13,10 +13,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainMemory implements Closeable
-{
-    public static final Map<String, RedisObj<?>> DICT = new HashMap<>();
+public class MainMemory implements Closeable {
 
+    public static final Map<String, RedisObj<?>> DICT = new HashMap<>();
 
     public static void put(String key, RedisObj<?> obj)
     {

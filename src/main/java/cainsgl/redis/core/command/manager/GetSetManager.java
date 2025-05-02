@@ -1,8 +1,8 @@
 package cainsgl.redis.core.command.manager;
 
 import cainsgl.redis.core.command.AbstractCommandManager;
-import cainsgl.redis.core.command.processor.GetProcessor;
-import cainsgl.redis.core.command.processor.SetProcessor;
+import cainsgl.redis.core.command.processor.string.GetProcessor;
+import cainsgl.redis.core.command.processor.string.SetProcessor;
 import cainsgl.redis.core.storage.RedisObj;
 
 import java.util.HashMap;

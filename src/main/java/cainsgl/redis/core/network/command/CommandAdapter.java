@@ -66,10 +66,10 @@ public class CommandAdapter
        }
         return dataNumber == 0;
     }
-    public AbstractCommandProcessor.Command getCommand()
-    {
+
+    public AbstractCommandProcessor.Command getCommand() {
         command.processor.processArgs(args);
-        log.debug("execute command:{} {}" ,command.cmd,args);
+        log.debug("execute command:{} {}" ,command.cmd, args);
         return command;
     }
 }

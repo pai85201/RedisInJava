@@ -1,4 +1,4 @@
-package cainsgl.redis.core.storage;
+package cainsgl.redis.core.storage.redisObj;
 
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 

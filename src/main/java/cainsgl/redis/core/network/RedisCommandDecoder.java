@@ -2,7 +2,6 @@ package cainsgl.redis.core.network;
 
 
 import cainsgl.redis.core.config.RedisConfig;
-import cainsgl.redis.core.network.command.CommandAdapter;
 import cainsgl.redis.core.network.decoder.AuthDecoder;
 import cainsgl.redis.core.network.decoder.Decoder;
 import cainsgl.redis.core.network.decoder.DefalutDcoder;

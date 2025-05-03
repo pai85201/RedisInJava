@@ -1,10 +1,10 @@
-package cainsgl.redis.core.storage;
+package cainsgl.redis.core.storage.redisObj.impl;
 
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.StringResponse;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 
-public class RedisStringObj implements RedisObj<String>
-{
+public class RedisStringObj implements RedisObj<String> {
     String str;
     public RedisStringObj(String s)
     {

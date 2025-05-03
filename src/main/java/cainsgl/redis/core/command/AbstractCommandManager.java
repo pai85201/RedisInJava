@@ -11,8 +11,7 @@ public abstract class AbstractCommandManager implements CommandManager
 {
 
     private final EventLoopGroup MyWorkGroup;
-    public AbstractCommandManager(boolean sharedThread, CommandProcessor... abstractCommandProcessor)
-    {
+    public AbstractCommandManager(boolean sharedThread, CommandProcessor... abstractCommandProcessor) {
         this(sharedThread, Thread.MAX_PRIORITY, abstractCommandProcessor);
     }
     // private final static Map<AbstractCommandProcessor<?>, ShareGet> ;
@@ -25,8 +24,7 @@ public abstract class AbstractCommandManager implements CommandManager
         {
             MyWorkGroup = new NioEventLoopGroup(1, new DefaultThreadFactory("CommandManager", priority));
         }
-        for (CommandProcessor processor : processors)
-        {
+        for (CommandProcessor processor : processors) {
             processor.setManager(this);
             //去检查类型，看看是否继承了share的几种，后面添加到回调方法里去
         }

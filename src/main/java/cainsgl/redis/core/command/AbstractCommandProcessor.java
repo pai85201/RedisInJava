@@ -8,11 +8,11 @@ import cainsgl.redis.core.network.NetworkConfig;
 import java.util.List;
 
 
-public abstract class AbstractCommandProcessor<T extends CommandManager> implements CommandProcessor
-{
+public abstract class AbstractCommandProcessor<T extends CommandManager> implements CommandProcessor {
+
     T manager;
-    public AbstractCommandProcessor(String commandName, int maxArgsCount, int minArgsCount)
-    {
+
+    public AbstractCommandProcessor(String commandName, int maxArgsCount, int minArgsCount) {
 
         NetworkConfig.register(new Command(commandName, maxArgsCount, minArgsCount, this));
     }

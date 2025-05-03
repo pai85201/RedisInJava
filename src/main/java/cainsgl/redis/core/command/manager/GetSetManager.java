@@ -4,7 +4,7 @@ import cainsgl.redis.core.command.AbstractCommandManager;
 import cainsgl.redis.core.command.processor.string.DelProcessor;
 import cainsgl.redis.core.command.processor.string.GetProcessor;
 import cainsgl.redis.core.command.processor.string.SetProcessor;
-import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 
 import java.util.HashMap;
 import java.util.Map;

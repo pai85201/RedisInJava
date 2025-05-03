@@ -1,6 +1,5 @@
 package cainsgl.redis.core.network.response.resp.impl;
 
-import cainsgl.redis.core.network.response.Response;
 import cainsgl.redis.core.network.response.resp.AbstractRESP2Response;
 
 public class NumberResponse extends AbstractRESP2Response

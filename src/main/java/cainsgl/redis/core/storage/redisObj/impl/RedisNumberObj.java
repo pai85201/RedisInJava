@@ -1,8 +1,8 @@
-package cainsgl.redis.core.storage;
+package cainsgl.redis.core.storage.redisObj.impl;
 
 import cainsgl.redis.core.network.response.resp.RESP2Response;
-import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
 import cainsgl.redis.core.network.response.resp.impl.NumberResponse;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 
 public class RedisNumberObj implements RedisObj<Number>
 {

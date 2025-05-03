@@ -3,13 +3,9 @@ package cainsgl.redis.core.command.processor.string;
 import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.command.manager.GetSetManager;
 import cainsgl.redis.core.command.parameter.RedisParameter;
-
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.EnumResponse;
-import cainsgl.redis.core.network.response.resp.impl.NumberResponse;
-import cainsgl.redis.core.network.response.resp.impl.StringResponse;
-import cainsgl.redis.core.storage.RedisObj;
-
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 
 import java.util.List;
 
@@ -32,6 +28,8 @@ public class GetProcessor extends AbstractCommandProcessor<GetSetManager>
             return EnumResponse.nil;
         }
         key=null;
+//        Object data = objectRedisObj.getData();
+//        System.out.println("=====" + data + "=====");
         return objectRedisObj.getRes();
     }
 

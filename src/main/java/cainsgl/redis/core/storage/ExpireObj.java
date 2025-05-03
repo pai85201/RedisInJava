@@ -1,6 +1,5 @@
 package cainsgl.redis.core.storage;
 
-import cainsgl.redis.core.storage.share.ExpireManager;
 @Deprecated
 public  class ExpireObj<T>
 {

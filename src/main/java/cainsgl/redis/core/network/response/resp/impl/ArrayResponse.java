@@ -1,7 +1,6 @@
 package cainsgl.redis.core.network.response.resp.impl;
 
 
-import cainsgl.redis.core.network.response.resp.AbstractRESP2Response;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 
 import java.util.List;

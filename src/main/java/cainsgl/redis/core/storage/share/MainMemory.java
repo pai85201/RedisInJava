@@ -1,22 +1,15 @@
 package cainsgl.redis.core.storage.share;
 
-import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.config.Stopable;
-import cainsgl.redis.core.storage.RedisObj;
 import cainsgl.redis.core.storage.RedisProxyObj;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 import cainsgl.redis.core.utils.EventWorkGroups;
 import cainsgl.redis.core.utils.ref.KeyWeakReference;
 import io.netty.channel.EventLoop;
-import io.netty.channel.EventLoopGroup;
-
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.Promise;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
 import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutionException;

@@ -1,13 +1,11 @@
 package cainsgl.redis.core.config;
 
 import cainsgl.redis.core.command.AbstractCommandManager;
-import cainsgl.redis.core.command.AbstractCommandProcessor;
 import cainsgl.redis.core.network.RedisServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.ArrayList;

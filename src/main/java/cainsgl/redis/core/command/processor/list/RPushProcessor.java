@@ -10,38 +10,34 @@ import cainsgl.redis.core.storage.redisObj.RedisObj;
 import cainsgl.redis.core.storage.redisObj.factory.RedisObjFactory;
 import cainsgl.redis.core.storage.share.ExpirableProducer;
 import cainsgl.redis.core.storage.share.MainMemory;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class LPushProcessor extends AbstractCommandProcessor<ListManager> implements ExpirableProducer {
-    private static final Logger log = LoggerFactory.getLogger(LPushProcessor.class);
-
+public class RPushProcessor extends AbstractCommandProcessor<ListManager> implements ExpirableProducer {
     private String key;
     private List<String> values;
 
-    public LPushProcessor() {
-        super("lpush", Integer.MAX_VALUE, 2);
+    public RPushProcessor() {
+        super("rpush",Integer.MAX_VALUE, 2);
     }
 
     @Override
     public RESP2Response execute() throws RedisException {
         // 将数据存入工作空间
         Map<String, RedisObj<LinkedList<String>>> redisObjGroup = getManager().redisObjGroup;
+        List<String> valueCollection = new ArrayList<>(values);
         if(null == redisObjGroup.get(key)){
             // 该 key对应的list 第一次被创建，封装 redisObj对象
-            RedisObj<?> redisObj =  RedisObjFactory.produce(
-                    RedisObjFactory.ObjType.LIST, values,
-                    60000, this, key);
-            log.info("生成的 redisObj: {}", redisObj);
-            redisObjGroup.put(key, (RedisObj<LinkedList<String>>) redisObj);
+            RedisObj<LinkedList<String>> redisObj =
+                    (RedisObj<LinkedList<String>>) RedisObjFactory.produce(RedisObjFactory.ObjType.LIST, values.toString(), 60000, this, key);
+            redisObjGroup.put(key, redisObj);
             // 将数据存入主存(数据库)
         }else {
-            // NOTE 区别于 LPUSH 直接添加到 linkedList头部
-            redisObjGroup.get(key).getData().addAll(0, values);
+            // NOTE 区别于 LPUSH 直接添加到 linkedList末尾
+            redisObjGroup.get(key).getData().addAll(valueCollection);
         }
         MainMemory.put(key, redisObjGroup.get(key));
         return EnumResponse.ok;

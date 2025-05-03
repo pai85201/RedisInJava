@@ -5,7 +5,7 @@ import cainsgl.redis.core.command.manager.GetSetManager;
 import cainsgl.redis.core.exception.RedisException;
 import cainsgl.redis.core.network.response.resp.RESP2Response;
 import cainsgl.redis.core.network.response.resp.impl.NumberResponse;
-import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 import cainsgl.redis.core.storage.share.MainMemory;
 
 import java.util.List;

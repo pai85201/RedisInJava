@@ -1,6 +1,6 @@
 package cainsgl.redis.core.utils.ref;
 
-import cainsgl.redis.core.storage.RedisObj;
+import cainsgl.redis.core.storage.redisObj.RedisObj;
 
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;

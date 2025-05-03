@@ -1,4 +1,4 @@
-package cainsgl.redis.core.dataStructure.adapter;
+package cainsgl.redis.core.dataStructure.converter;
 
 import cainsgl.redis.core.dataStructure.Converter;
 import cainsgl.redis.core.dataStructure.Impl.MList;

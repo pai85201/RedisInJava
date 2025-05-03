@@ -52,7 +52,12 @@ public class RedisObjFactory {
         };
     }
 
-    // 枚举类型 - 用于定义生产的 redisObj类型
+    /*
+    *  RedisObj工厂枚举
+    *  1. 业务层自主提供需要的 RedisObj 具体类型
+    *  2. 具体类型由工厂类管理，并且类聚在工厂类之中
+    *  3. 工厂根据不同的类型生产不同的 RedisObj 并生成代理对象返回给 业务层
+    * */
     public enum ObjType{
         STRING(1, "string数据结构类型代数"),
         LIST(2, "list数据结构类型代数"),
